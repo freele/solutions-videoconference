@@ -8,6 +8,8 @@ target 'Conference' do
   pod 'CocoaLumberjack/Swift', '~> 3.5'
   pod 'VoxImplantSDK/CocoaLumberjackLogger', '2.35.0'
   pod 'SocketRocket'
+  pod 'PromiseKit'
+  pod 'XCDYouTubeKit'
 end
 
 post_install do |installer|

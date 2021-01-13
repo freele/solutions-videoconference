@@ -159,10 +159,10 @@ final class VoximplantService:
                 completion(error)
                 return
             }
-            #error("Enter Voximplant Account credentials")
+//            #error("Enter Voximplant Account credentials")
             self?.client.login(
-                withUser: "",
-                password: "",
+                withUser: "freele@streamlayer-test.freele.n2.voximplant.com",
+                password: "gte14242",
                 success: { _, _ in completion(nil) },
                 failure: { completion($0) }
             )

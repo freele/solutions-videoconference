@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -75,7 +76,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Uwb-76-gLu">
                                         <rect key="frame" x="12" y="160.66666666666663" width="311" height="88"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9kC-Ms-YQL" customClass="PressableButton" customModule="Conference" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9kC-Ms-YQL" customClass="PressableButton" customModule="Conference" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="40"/>
                                                 <color key="backgroundColor" red="0.40000000000000002" green="0.18039215689999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -89,7 +90,7 @@
                                                     <action selector="joinVideoTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6oc-cA-4SA"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbT-bu-be2" customClass="PressableButton" customModule="Conference" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbT-bu-be2" customClass="PressableButton" customModule="Conference" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="48" width="311" height="40"/>
                                                 <color key="backgroundColor" red="0.40000000000000002" green="0.18039215689999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -131,6 +132,7 @@
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.13333333333333333" green="0.062745098039215685" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="eOS-LX-cId" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="0Lx-ub-8mr"/>
@@ -143,7 +145,6 @@
                             <constraint firstItem="lhb-IE-Y0A" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="UDO-nb-tB1"/>
                             <constraint firstItem="IaE-t4-kUd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Z4g-6V-Ugn"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="Rem-x7-fng"/>
@@ -182,7 +183,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tfY-XV-2Zd" customClass="ConferenceView" customModule="Conference" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="46" width="375" height="646"/>
+                                <rect key="frame" x="0.0" y="283" width="375" height="409"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="RFm-fR-BS1">
@@ -244,23 +245,33 @@
                                     <constraint firstAttribute="height" constant="20" id="lhB-Um-Jz4"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yd2-R4-kYj">
+                                <rect key="frame" x="0.0" y="44" width="375" height="239"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="239" id="5RI-2h-vP7"/>
+                                </constraints>
+                            </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Lay-wr-60N"/>
                         <color key="backgroundColor" red="0.13333333333333333" green="0.062745098039215685" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Lay-wr-60N" firstAttribute="trailing" secondItem="RFm-fR-BS1" secondAttribute="trailing" constant="8" id="2fn-0q-KNj"/>
+                            <constraint firstItem="Yd2-R4-kYj" firstAttribute="leading" secondItem="Lay-wr-60N" secondAttribute="leading" id="7qO-rC-Pbg"/>
                             <constraint firstItem="tfY-XV-2Zd" firstAttribute="centerX" secondItem="CCh-Bn-g4E" secondAttribute="centerX" id="Ce8-ru-2dL"/>
                             <constraint firstItem="9pG-w1-0yR" firstAttribute="width" secondItem="CCh-Bn-g4E" secondAttribute="width" multiplier="0.133333" id="CtT-el-gPF"/>
+                            <constraint firstItem="Lay-wr-60N" firstAttribute="trailing" secondItem="Yd2-R4-kYj" secondAttribute="trailing" id="GBk-5Y-r5D"/>
                             <constraint firstItem="tfY-XV-2Zd" firstAttribute="leading" secondItem="Lay-wr-60N" secondAttribute="leading" id="PgP-yU-qrJ"/>
                             <constraint firstItem="RFm-fR-BS1" firstAttribute="top" secondItem="tfY-XV-2Zd" secondAttribute="bottom" constant="8" id="VpE-6C-eGE"/>
+                            <constraint firstItem="Yd2-R4-kYj" firstAttribute="top" secondItem="Lay-wr-60N" secondAttribute="top" id="Y3a-eV-sto"/>
                             <constraint firstItem="Lay-wr-60N" firstAttribute="trailing" secondItem="65o-Vg-Kz1" secondAttribute="trailing" constant="20" id="caS-ud-39M"/>
                             <constraint firstItem="RFm-fR-BS1" firstAttribute="centerX" secondItem="CCh-Bn-g4E" secondAttribute="centerX" id="iIr-6K-wtJ"/>
                             <constraint firstItem="65o-Vg-Kz1" firstAttribute="top" secondItem="Lay-wr-60N" secondAttribute="top" constant="20" id="kEx-dZ-S1u"/>
                             <constraint firstItem="Lay-wr-60N" firstAttribute="trailing" secondItem="tfY-XV-2Zd" secondAttribute="trailing" id="kQb-KQ-zJR"/>
                             <constraint firstItem="RFm-fR-BS1" firstAttribute="leading" secondItem="Lay-wr-60N" secondAttribute="leading" constant="8" id="pY0-tk-5IQ"/>
-                            <constraint firstItem="tfY-XV-2Zd" firstAttribute="top" secondItem="Lay-wr-60N" secondAttribute="top" constant="2" id="sTI-Ye-2EK"/>
+                            <constraint firstItem="tfY-XV-2Zd" firstAttribute="top" secondItem="Yd2-R4-kYj" secondAttribute="bottom" id="sTI-Ye-2EK"/>
                             <constraint firstItem="Lay-wr-60N" firstAttribute="bottom" secondItem="RFm-fR-BS1" secondAttribute="bottom" constant="8" id="sdf-Hy-euS"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Lay-wr-60N"/>
                         <variation key="heightClass=regular-widthClass=regular">
                             <mask key="constraints">
                                 <exclude reference="2fn-0q-KNj"/>
@@ -270,6 +281,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="backgroundVideoWrapper" destination="Yd2-R4-kYj" id="WSs-XE-jvn"/>
                         <outlet property="chooseAudioButton" destination="tf1-pw-waK" id="DRK-Ze-HiB"/>
                         <outlet property="conferenceView" destination="tfY-XV-2Zd" id="lhn-7Z-hdZ"/>
                         <outlet property="exitButton" destination="JA8-t6-ha1" id="EH5-UP-iQM"/>
@@ -282,7 +294,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QRG-76-3k5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1543" y="138"/>
+            <point key="canvasLocation" x="1541.5999999999999" y="137.4384236453202"/>
         </scene>
         <!--Progress View Controller-->
         <scene sceneID="sxg-o4-Vk5">
@@ -304,7 +316,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r2v-wT-vz9" customClass="ColoredButton" customModule="Conference" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r2v-wT-vz9" customClass="ColoredButton" customModule="Conference" customModuleProvider="target">
                                 <rect key="frame" x="20" y="708" width="335" height="50"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.18039215689999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -324,6 +336,7 @@
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Tao-pt-cbZ"/>
                         <color key="backgroundColor" red="0.13333333333333333" green="0.062745098039215685" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="W5X-Qo-XrX" firstAttribute="leading" secondItem="JGW-s9-SEQ" secondAttribute="leading" constant="20" id="0CN-EP-W9D"/>
@@ -337,7 +350,6 @@
                             <constraint firstItem="W5X-Qo-XrX" firstAttribute="top" secondItem="Nat-UU-2Kl" secondAttribute="bottom" constant="23" id="wzJ-AN-QOj"/>
                             <constraint firstItem="aYV-TT-Dq3" firstAttribute="centerX" secondItem="JGW-s9-SEQ" secondAttribute="centerX" id="xlm-UA-PgG"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Tao-pt-cbZ"/>
                         <connections>
                             <outlet property="activityIndicator" destination="aYV-TT-Dq3" id="iV9-B7-Wu4"/>
                             <outlet property="descriptionLabel" destination="W5X-Qo-XrX" id="fCT-iw-Wxe"/>
@@ -353,7 +365,15 @@
             <point key="canvasLocation" x="835" y="138"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="r2v-wT-vz9">
+            <size key="intrinsicContentSize" width="49" height="27"/>
+        </designable>
+    </designables>
     <resources>
         <image name="logo" width="112" height="124"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DBAE622E900341021B0A972 /* Pods_Conference.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1121177F9B3F26D74B4516F0 /* Pods_Conference.framework */; };
 		7E029AE224D806C80052A705 /* SpeakerAutoselecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E029AE124D806C80052A705 /* SpeakerAutoselecting.swift */; };
 		7E029AE424D807110052A705 /* AudioDeviceAlertSelecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E029AE324D807110052A705 /* AudioDeviceAlertSelecting.swift */; };
 		7EBF1BAA24D446C4008446E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EBF1B7324D446C4008446E7 /* Assets.xcassets */; };
@@ -68,9 +69,13 @@
 		7EBF1C0024D46902008446E7 /* PressableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBF1BFF24D46902008446E7 /* PressableButton.swift */; };
 		7EBF1C0524D477DC008446E7 /* AnimatedTransitionNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBF1C0324D477DC008446E7 /* AnimatedTransitionNavigationController.swift */; };
 		7EBF1C0624D477DC008446E7 /* AnimatedTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBF1C0424D477DC008446E7 /* AnimatedTransition.swift */; };
+		EF05D84D25ADEBA500EA12D5 /* BackgroundVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF05D84C25ADEBA500EA12D5 /* BackgroundVideoPlayer.swift */; };
+		EF05D85025ADEDDA00EA12D5 /* CacnellablePromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF05D84F25ADEDDA00EA12D5 /* CacnellablePromise.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0352CC0B85231224EFA2B5C8 /* Pods-Conference.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Conference.release.xcconfig"; path = "Target Support Files/Pods-Conference/Pods-Conference.release.xcconfig"; sourceTree = "<group>"; };
+		1121177F9B3F26D74B4516F0 /* Pods_Conference.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Conference.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E029AE124D806C80052A705 /* SpeakerAutoselecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerAutoselecting.swift; sourceTree = "<group>"; };
 		7E029AE324D807110052A705 /* AudioDeviceAlertSelecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceAlertSelecting.swift; sourceTree = "<group>"; };
 		7EBF1B2624D44616008446E7 /* Conference.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Conference.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +139,9 @@
 		7EBF1BFF24D46902008446E7 /* PressableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PressableButton.swift; sourceTree = "<group>"; };
 		7EBF1C0324D477DC008446E7 /* AnimatedTransitionNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedTransitionNavigationController.swift; sourceTree = "<group>"; };
 		7EBF1C0424D477DC008446E7 /* AnimatedTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedTransition.swift; sourceTree = "<group>"; };
+		EF05D84C25ADEBA500EA12D5 /* BackgroundVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundVideoPlayer.swift; sourceTree = "<group>"; };
+		EF05D84F25ADEDDA00EA12D5 /* CacnellablePromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacnellablePromise.swift; sourceTree = "<group>"; };
+		F4A3FB74B7684312D51380C5 /* Pods-Conference.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Conference.debug.xcconfig"; path = "Target Support Files/Pods-Conference/Pods-Conference.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DBAE622E900341021B0A972 /* Pods_Conference.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,8 +159,18 @@
 		07B11931FAA070E807DA709C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				F4A3FB74B7684312D51380C5 /* Pods-Conference.debug.xcconfig */,
+				0352CC0B85231224EFA2B5C8 /* Pods-Conference.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		0F9E3FDEA1BE6803781E7CF5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1121177F9B3F26D74B4516F0 /* Pods_Conference.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7EBF1B1D24D44616008446E7 = {
@@ -166,6 +185,7 @@
 				7EBF1B7224D446C4008446E7 /* Resources */,
 				7EBF1B2724D44616008446E7 /* Products */,
 				07B11931FAA070E807DA709C /* Pods */,
+				0F9E3FDEA1BE6803781E7CF5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -240,6 +260,8 @@
 				7EBF1B8424D446C4008446E7 /* JSON.swift */,
 				7EBF1B8524D446C4008446E7 /* Device.swift */,
 				7EBF1B8624D446C4008446E7 /* myID.swift */,
+				EF05D84C25ADEBA500EA12D5 /* BackgroundVideoPlayer.swift */,
+				EF05D84F25ADEDDA00EA12D5 /* CacnellablePromise.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -415,9 +437,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7EBF1B3A24D44617008446E7 /* Build configuration list for PBXNativeTarget "Conference" */;
 			buildPhases = (
+				F5650E9D582B15A6112929E5 /* [CP] Check Pods Manifest.lock */,
 				7EBF1B2224D44616008446E7 /* Sources */,
 				7EBF1B2324D44616008446E7 /* Frameworks */,
 				7EBF1B2424D44616008446E7 /* Resources */,
+				16816B94913C24E231E2DD9B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -477,6 +501,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		16816B94913C24E231E2DD9B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Conference/Pods-Conference-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Conference/Pods-Conference-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Conference/Pods-Conference-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5650E9D582B15A6112929E5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Conference-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7EBF1B2224D44616008446E7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -500,6 +566,7 @@
 				7EBF1BBA24D446C4008446E7 /* Storyboard.swift in Sources */,
 				7EBF1BCB24D446C4008446E7 /* Reconnecting.swift in Sources */,
 				7EBF1BB724D446C4008446E7 /* myID.swift in Sources */,
+				EF05D84D25ADEBA500EA12D5 /* BackgroundVideoPlayer.swift in Sources */,
 				7EBF1BB324D446C4008446E7 /* ReconnectError.swift in Sources */,
 				7EBF1BBC24D446C4008446E7 /* ProgressViewModel.swift in Sources */,
 				7EBF1BC124D446C4008446E7 /* ConferenceCallModel.swift in Sources */,
@@ -514,6 +581,7 @@
 				7EBF1BB224D446C4008446E7 /* ReconnectOperation.swift in Sources */,
 				7EBF1BB024D446C4008446E7 /* SocketContentKey.swift in Sources */,
 				7EBF1C0624D477DC008446E7 /* AnimatedTransition.swift in Sources */,
+				EF05D85025ADEDDA00EA12D5 /* CacnellablePromise.swift in Sources */,
 				7EBF1BED24D45925008446E7 /* Theme.swift in Sources */,
 				7EBF1BF724D46656008446E7 /* GetShareLink.swift in Sources */,
 				7EBF1BDA24D455E6008446E7 /* PermissionsHelper.swift in Sources */,
@@ -680,11 +748,12 @@
 		};
 		7EBF1B3B24D44617008446E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F4A3FB74B7684312D51380C5 /* Pods-Conference.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = W9BHJBL635;
+				DEVELOPMENT_TEAM = GURKN8N75N;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -702,6 +771,7 @@
 		};
 		7EBF1B3C24D44617008446E7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0352CC0B85231224EFA2B5C8 /* Pods-Conference.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

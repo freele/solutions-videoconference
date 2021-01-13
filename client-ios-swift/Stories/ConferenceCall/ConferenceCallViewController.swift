@@ -10,6 +10,9 @@ final class ConferenceCallViewController:
     ConferenceObserver,
     SocketObserver
 {
+    
+    
+    @IBOutlet private weak var backgroundVideoWrapper: UIView!
     @IBOutlet private weak var conferenceView: ConferenceView!
     @IBOutlet private weak var muteButton: CallOptionButton!
     @IBOutlet private weak var chooseAudioButton: CallOptionButton!
@@ -24,10 +27,19 @@ final class ConferenceCallViewController:
     var getShareLink: GetShareLink! // DI
     var storyAssembler: StoryAssembler! // DI
     var video: Bool! // DI
+    
+    private let videoPlayer = BackgroundVideoPlayer(withURL: "dp8PhLsUcFE")
     private var muted = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        videoPlayer.willMove(toParent: self)
+        addChild(videoPlayer)
+        videoPlayer.view.translatesAutoresizingMaskIntoConstraints = false
+        videoPlayer.view.frame = backgroundVideoWrapper.frame
+        view.addSubview(videoPlayer.view)
+        videoPlayer.didMove(toParent: self)
         
         muteButton.doInitialSetup(
             with: CallOptionButtonModels.mute,
@@ -102,6 +114,8 @@ final class ConferenceCallViewController:
                 self?.leaveConference()
             }
         )
+        
+        
         
         socketView.isHidden = true
         socketView.layer.cornerRadius = 10

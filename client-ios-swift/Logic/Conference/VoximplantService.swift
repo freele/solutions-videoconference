@@ -159,10 +159,10 @@ final class VoximplantService:
                 completion(error)
                 return
             }
-            #error("Enter Voximplant Account credentials")
+//            #error("Enter Voximplant Account credentials")
             self?.client.login(
-                withUser: "",
-                password: "",
+                withUser: "asdf",
+                password: "asf",
                 success: { _, _ in completion(nil) },
                 failure: { completion($0) }
             )

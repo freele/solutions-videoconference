@@ -8,7 +8,10 @@ typealias EndpointID = String
 
 protocol ConferenceService: AnyObject {
     var conferenceID: String? { get }
-    
+
+    func createConference(withId id: String, name: String, sendVideo video: Bool) throws
+    func recreateConference() throws
+    func startConference() throws
     func joinConference(withID id: String, name: String, sendVideo video: Bool) throws
     func leaveConference()
     func mute(_ mute: Bool) throws

@@ -45,6 +45,14 @@ final class ManageConferenceUseCase:
     func switchCamera() {
         conferenceService.switchCamera()
     }
+
+    func startConference() throws {
+        try conferenceService.startConference()
+    }
+
+    func recreateConference() throws {
+        try conferenceService.recreateConference()
+    }
     
     // MARK: - EndpointObserver -
     func endpointAdded(endpoint: EndpointID, name: String?, place: Int) {

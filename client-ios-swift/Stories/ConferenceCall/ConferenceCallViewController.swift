@@ -10,12 +10,13 @@ final class ConferenceCallViewController:
     ConferenceObserver,
     SocketObserver
 {
+    @IBOutlet private weak var backgroundVideoWrapper: UIView!
     @IBOutlet private weak var conferenceView: ConferenceView!
-    @IBOutlet private weak var muteButton: CallOptionButton!
+    @IBOutlet private weak var startButton: CallOptionButton!
     @IBOutlet private weak var chooseAudioButton: CallOptionButton!
-    @IBOutlet private weak var switchCameraButton: CallOptionButton!
-    @IBOutlet private weak var videoButton: CallOptionButton!
-    @IBOutlet private weak var shareButton: CallOptionButton!
+    @IBOutlet private weak var enableVideoButton: CallOptionButton!
+    @IBOutlet private weak var recreateButton: CallOptionButton!
+    @IBOutlet private weak var disconnectButton: CallOptionButton!
     @IBOutlet private weak var exitButton: CallOptionButton!
     
     @IBOutlet weak var socketView: UIView! //internal
@@ -24,19 +25,26 @@ final class ConferenceCallViewController:
     var getShareLink: GetShareLink! // DI
     var storyAssembler: StoryAssembler! // DI
     var video: Bool! // DI
-    private var muted = false
+    
+    private let videoPlayer = BackgroundVideoPlayer(withURL: "dp8PhLsUcFE")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        muteButton.doInitialSetup(
-            with: CallOptionButtonModels.mute,
+        videoPlayer.willMove(toParent: self)
+        addChild(videoPlayer)
+        videoPlayer.view.translatesAutoresizingMaskIntoConstraints = false
+        videoPlayer.view.frame = backgroundVideoWrapper.frame
+        view.addSubview(videoPlayer.view)
+        videoPlayer.didMove(toParent: self)
+        
+        startButton.doInitialSetup(
+            with: CallOptionButtonModels.start,
             and: { [weak self] button in
+                log("Start call pressed on call screen")
                 guard let self = self else { return }
                 do {
-                    try self.manageConference.mute(!self.muted)
-                    self.muted.toggle()
-                    button.state = self.self.muted ? .selected : .normal
+                    try self.manageConference.startConference()
                 } catch (let error) {
                     AlertHelper.showError(message: error.localizedDescription, on: self)
                 }
@@ -46,67 +54,51 @@ final class ConferenceCallViewController:
         chooseAudioButton.doInitialSetup(
             with: CallOptionButtonModels.chooseAudio,
             and: { [weak self] button in
+                log("ChooseAudio pressed")
                 self?.showAudioDevicesActionSheet(sourceView: button)
             }
         )
         
-        switchCameraButton.doInitialSetup(
-            with: CallOptionButtonModels.switchCamera,
+        enableVideoButton.doInitialSetup(
+            with: CallOptionButtonModels.enableVideo,
             and: { [weak self] button in
-                self?.manageConference.switchCamera()
+                log("Enable video pressed")
+                self?.videoPlayer.playVideo()
             }
         )
         
-        videoButton.doInitialSetup(
-            with: CallOptionButtonModels.video,
+        recreateButton.doInitialSetup(
+            with: CallOptionButtonModels.recreate,
             and: { [weak self] button in
-                guard let self = self else { return }
-                let previousState = button.state
-                button.state = .unavailable
-                self.manageConference.sendVideo(!self.video) { [weak self] error in
-                    guard let self = self else { return }
-                    if let error = error {
-                        AlertHelper.showError(message: error.localizedDescription, on: self)
-                        button.state = previousState
-                    } else {
-                        self.video.toggle()
-                        button.state = self.video ? .normal : .selected
-                    }
-                }
-            }
-        )
-        
-        shareButton.doInitialSetup(
-            with: CallOptionButtonModels.share,
-            and: { [weak self] button in
+                log("Recreate call pressed")
                 guard let self = self else { return }
                 do {
-                    let link = try self.getShareLink()
-                    let text = "Join my conference"
-                    let activityViewController = UIActivityViewController(
-                        activityItems: [text, link],
-                        applicationActivities: nil
-                    )
-                    activityViewController.popoverPresentationController?.sourceView = self.shareButton
-                    self.present(activityViewController, animated: true, completion: nil)
+                    try self.manageConference.recreateConference()
                 } catch (let error) {
-                    log("presenting share menu failed due to \(error.localizedDescription)")
+                    AlertHelper.showError(message: error.localizedDescription, on: self)
                 }
+            }
+        )
+        
+        disconnectButton.doInitialSetup(
+            with: CallOptionButtonModels.disconnect,
+            and: { [weak self] button in
+                log("Disconnect pressed")
+                self?.leaveConference.withoutDisconnecting()
             }
         )
         
         exitButton.doInitialSetup(
             with: CallOptionButtonModels.exit,
             and: { [weak self] button in
+                log("Exit pressed")
                 button.state = .unavailable
                 self?.leaveConference()
+                self?.dismiss(animated: true)
             }
         )
-        
         socketView.isHidden = true
         socketView.layer.cornerRadius = 10
-        
-        videoButton.state = video ? .normal : .selected
         
         manageConference.observeVideoStream(conferenceView)
         manageConference.observeConference(self)
@@ -116,6 +108,7 @@ final class ConferenceCallViewController:
     // MARK: - ConferenceObserver -
     func didChangeState(to state: ConferenceState) {
         DispatchQueue.main.async {
+            log("didChangeState to \(state)")
             switch state {
             case .connected:
                 self.navigationController?.popToViewController(self, animated: true)
@@ -131,7 +124,7 @@ final class ConferenceCallViewController:
                 )
             case .ended(let reason):
                 if case .disconnected = reason {
-                    self.dismiss(animated: true)
+                    self.videoPlayer.playVideo(delay: 0.2)
                     return
                 }
                 

@@ -6,8 +6,21 @@ target 'Conference' do
   use_frameworks!
 
   pod 'CocoaLumberjack/Swift', '~> 3.5'
-  pod 'VoxImplantSDK/CocoaLumberjackLogger', '2.34.0'
+
+  pod 'VoxImplantSDK/CocoaLumberjackLogger', git: 'git@github.com:StreamLayer/voximplant-temporary.git'
+  # pod 'VoxImplantSDK', :path => '/Users/kremenets/Dev/makeomatic/StreamLayer/Vox-test-builds/sdk'
+  pod 'VoxImplantWebRTC', git: 'git@github.com:StreamLayer/voximplant-temporary.git'
+  pod 'VoxImplantSDK', git: 'git@github.com:StreamLayer/voximplant-temporary.git'
+  
+
+
   pod 'SocketRocket'
+  pod 'PromiseKit'
+  # pod 'YTVimeoExtractor'
+  # pod 'XCDYouTubeKit'
+  pod 'XCDYouTubeKit', git: 'git@github.com:iOSDev-Auction/XCDYouTubeKit.git'
+
+
 end
 
 post_install do |installer|

@@ -7,6 +7,8 @@ import VoxImplantSDK
 typealias ParticipantID = String
 
 protocol ManageConference {
+    func startConference() throws
+    func recreateConference() throws
     func sendVideo(_ send: Bool, completion: @escaping (Error?) -> Void)
     func mute(_ mute: Bool) throws
     func switchCamera()

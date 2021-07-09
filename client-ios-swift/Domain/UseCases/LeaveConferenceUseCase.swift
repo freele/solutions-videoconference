@@ -13,4 +13,8 @@ final class LeaveConferenceUseCase: LeaveConference {
         conferenceService.leaveConference()
         conferenceService.manuallyDisconnect(nil)
     }
+
+    func withoutDisconnecting() {
+        conferenceService.leaveConference()
+    }
 }

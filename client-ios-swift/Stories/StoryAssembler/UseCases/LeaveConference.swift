@@ -4,4 +4,5 @@
 
 protocol LeaveConference {
     func callAsFunction()
+    func withoutDisconnecting()
 }

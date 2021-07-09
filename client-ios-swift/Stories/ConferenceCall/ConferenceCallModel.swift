@@ -5,27 +5,25 @@
 import UIKit
 
 enum CallOptionButtonModels {
-    static let mute = CallOptionButton.Model(
-        image: UIImage(named: "micOn"),
-        imageSelected: UIImage(named: "micOff"),
-        text: "Mic"
+    static let start = CallOptionButton.Model(
+        image: UIImage(),
+        text: "Start"
     )
     static let chooseAudio = CallOptionButton.Model(
         image: UIImage(named: "audioDevice"),
         text: "Audio"
     )
-    static let switchCamera = CallOptionButton.Model(
-        image: UIImage(named: "switchCam"),
-        text: "Switch"
+    static let enableVideo = CallOptionButton.Model(
+        image: UIImage(),
+        text: "Enable"
     )
-    static let video = CallOptionButton.Model(
-        image: UIImage(named: "videoOn"),
-        imageSelected: UIImage(named: "videoOff"),
-        text: "Cam"
+    static let recreate = CallOptionButton.Model(
+        image: UIImage(),
+        text: "Recreate"
     )
-    static let share = CallOptionButton.Model(
-        image: UIImage(named: "share"),
-        text: "Share"
+    static let disconnect = CallOptionButton.Model(
+        image: UIImage(),
+        text: "Disconnect"
     )
     static let exit = CallOptionButton.Model(
         image: UIImage(named: "exit"),

@@ -33,7 +33,7 @@ final class JoinConferenceUseCase: JoinConference {
                 return
             }
             do {
-                try self?.conferenceService.joinConference(withID: id, name: name, sendVideo: video)
+                try self?.conferenceService.createConference(withId: id, name: name, sendVideo: video)
                 completion(nil)
             } catch (let error) {
                 completion(error)

@@ -12,7 +12,7 @@ extension AudioDeviceSelecting {
         from audioDevices: Set<VIAudioDevice> = VIAudioManager.shared().availableAudioDevices()
     ) {
         if let device = audioDevices.first(where: { $0.type == audioDeviceType }) {
-            VIAudioManager.shared().select(device)
+//            VIAudioManager.shared().select(device)
         }
     }
 }

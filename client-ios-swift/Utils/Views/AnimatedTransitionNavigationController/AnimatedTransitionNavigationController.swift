@@ -23,6 +23,11 @@ final class AnimatedTransitionNavigationController:
         sharedInit()
     }
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        sharedInit()
+    }
+    
     private func sharedInit() {
         modalPresentationStyle = .fullScreen
         modalTransitionStyle = .crossDissolve

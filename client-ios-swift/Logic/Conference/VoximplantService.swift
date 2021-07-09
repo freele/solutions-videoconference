@@ -44,13 +44,64 @@ final class VoximplantService:
     }
     
     // MARK: - Join -
+    func createConference(withId id: String, name: String, sendVideo video: Bool) throws {
+        guard let conference = client.callConference(
+            "conf_\(id)",
+            settings: makeSettings(with: name, sendVideo: video)
+        ) else {
+            throw ConferenceError.unableToCreateConference
+        }
+        self.managedConference = ConferenceWrapper(
+            conference: conference,
+            ID: name,
+            myName: name,
+            isSendingVideo: video,
+            permissions: ConferencePermissions()
+        )
+    }
+
+    func recreateConference() throws {
+        guard let oldConference = managedConference
+            else {
+                throw ReconnectError.conferenceNotFound
+        }
+
+        guard let conference = client.callConference(
+            "conf_\(oldConference.ID)",
+            settings: makeSettings(with: oldConference.myName, sendVideo: oldConference.isSendingVideo)
+        ) else {
+            throw ReconnectError.unableToCreateConference
+        }
+
+        self.managedConference = ConferenceWrapper(
+            conference: conference,
+            ID: oldConference.ID,
+            myName: oldConference.myName,
+            isSendingAudio: oldConference.isSendingAudio,
+            isSharingScreen: oldConference.isSharingScreen,
+            isSendingVideo: oldConference.isSendingVideo,
+            permissions: oldConference.permissions
+        )
+
+        if !oldConference.isSendingAudio {
+            conference.sendAudio = false
+        }
+    }
+
+    func startConference() throws {
+        guard let conferenceWrapper = managedConference else {
+            throw ConferenceError.noActiveConferenceFound
+        }
+        conferenceWrapper.conference.start()
+        conferenceWrapper.conference.add(self)
+    }
+
     func joinConference(withID id: String, name: String, sendVideo video: Bool) throws {
         guard let conference = client.callConference("conf_\(id)",
             settings: makeSettings(with: name, sendVideo: video))
             else {
                 throw ConferenceError.unableToCreateConference
         }
-        
         self.managedConference = ConferenceWrapper(
             conference: conference,
             ID: id,
@@ -58,10 +109,8 @@ final class VoximplantService:
             isSendingVideo: video,
             permissions: ConferencePermissions()
         )
-        
         conference.start()
         conference.add(self)
-        
         selectSpeaker()
     }
     
@@ -109,11 +158,9 @@ final class VoximplantService:
         if !mute && !conferenceWrapper.permissions.isSendingAudioAllowed {
             throw ConferenceError.permissionError
         }
-        
         conferenceWrapper.conference.sendAudio = !mute
         managedConference?.isSendingAudio = !mute
         endpointObserver?.endpointMuteChanged(to: mute, endpoint: myID)
-        
         do {
             try socketCompanion?.send(command: .isMuted(muted: mute))
         } catch (let error) {
@@ -129,17 +176,14 @@ final class VoximplantService:
         if send && !conferenceWrapper.permissions.isSendingVideoAllowed {
             completion(ConferenceError.permissionError)
         }
-        
         conferenceWrapper.conference.setSendVideo(send) { [weak self] error in
             if let error = error {
                 completion(error)
                 return
             }
-            
             self?.managedConference?.isSendingVideo = send
             self?.endpointObserver?.endpointSendingVideoChanged(to: send, endpoint: myID)
             completion(nil)
-            
             do {
                 try self?.socketCompanion?.send(command: .isSendingVideo(sending: send))
             } catch (let error) {
@@ -161,8 +205,8 @@ final class VoximplantService:
             }
 //            #error("Enter Voximplant Account credentials")
             self?.client.login(
-                withUser: "asdf",
-                password: "asf",
+                withUser: "freele@streamlayer-test.freele.n2.voximplant.com",
+                password: "gte14242",
                 success: { _, _ in completion(nil) },
                 failure: { completion($0) }
             )
@@ -184,12 +228,16 @@ final class VoximplantService:
     }
     
     func leaveConference() {
-        log("Leave conference called")
-        managedConference?.ended = true
-        managedConference?.conference.hangup(withHeaders: nil)
+        if let conference = managedConference, conference.state == .stable {
+            log("Leave conference called")
+            managedConference?.conference.hangup(withHeaders: nil)
+        } else {
+            log("Not leaving because conference not found or already ended")
+        }
     }
     
     func manuallyDisconnect(_ completion: (() -> Void)?) {
+        log("Manually disconnect called")
         disconnect(completion)
         cleanResources()
     }
@@ -249,9 +297,11 @@ final class VoximplantService:
             self.disconnectCompletion?()
         }
     }
-    
+
     // MARK: - VICallDelegate -
     func call(_ call: VICall, didConnectWithHeaders headers: [AnyHashable : Any]?) {
+        managedConference?.state = .stable
+        selectSpeaker()
         connectionObserver?.didConnect()
         endpointObserver?.endpointAdded(endpoint: myID, name: managedConference?.myName, place: 0)
         if let headers = headers,
@@ -267,37 +317,23 @@ final class VoximplantService:
     }
     
     func call(_ call: VICall, didDisconnectWithHeaders headers: [AnyHashable : Any]?, answeredElsewhere: NSNumber) {
-        if managedConference?.ended ?? true { return }
-        managedConference?.ended = true
-        
-        if let headers = headers, headers[HeaderKey.kick] != nil {
-            log("Has been kicked")
-            manuallyDisconnect {
-                self.connectionObserver?.hasBeenKicked()
-            }
-        } else {
-            reconnect { error in
-                log("Reconnect ended \(error != nil ? "with error \((error as? ReconnectError)?.localizedDescription ?? "")" : "")")
-                if let error = error {
-                    self.manuallyDisconnect {
-                        self.connectionObserver?.didFail(with: error)
-                    }
-                }
-                self.reconnectOperation?.cancel()
-                self.reconnectOperation = nil
-            }
-        }
+        log("didDisconnectWithHeaders, state = \(String(describing: managedConference?.state))")
+        guard let conference = managedConference,
+              conference.state == .stable else { return }
+        managedConference?.state = .ended
+        connectionObserver?.didDisconnect()
     }
     
     func call(_ call: VICall, didFailWithError error: Error, headers: [AnyHashable : Any]?) {
-        if managedConference?.ended ?? true { return }
-        managedConference?.ended = true
+        guard let conference = managedConference,
+              conference.state != .ended else { return }
+        managedConference?.state = .ended
         manuallyDisconnect {
             self.connectionObserver?.didFail(with: error)
         }
     }
     
-    func call(_ call: VICall, didAddLocalVideoStream videoStream: VIVideoStream) {
+    func call(_ call: VICall, didAddLocalVideoStream videoStream: VILocalVideoStream) {
         videoStreamObserver?.didAddVideoStream(for: myID, renderOn: { renderer in
             if let renderer = renderer {
                 videoStream.addRenderer(renderer)
@@ -305,7 +341,7 @@ final class VoximplantService:
         })
     }
     
-    func call(_ call: VICall, didRemoveLocalVideoStream videoStream: VIVideoStream) {
+    func call(_ call: VICall, didRemoveLocalVideoStream videoStream: VILocalVideoStream) {
         videoStreamObserver?.didRemoveVideoStream(for: myID)
         videoStream.removeAllRenderers()
     }
@@ -339,7 +375,7 @@ final class VoximplantService:
         endpointObserver?.endpointRemoved(endpoint: endpoint.endpointId)
     }
     
-    func endpoint(_ endpoint: VIEndpoint, didAddRemoteVideoStream videoStream: VIVideoStream) {
+    func endpoint(_ endpoint: VIEndpoint, didAddRemoteVideoStream videoStream: VIRemoteVideoStream) {
         videoStreamObserver?.didAddVideoStream(for: endpoint.endpointId, renderOn: { renderer in
             if let renderer = renderer {
                 videoStream.addRenderer(renderer)
@@ -347,23 +383,21 @@ final class VoximplantService:
         })
     }
     
-    func endpoint(_ endpoint: VIEndpoint, didRemoveRemoteVideoStream videoStream: VIVideoStream) {
+    func endpoint(_ endpoint: VIEndpoint, didRemoveRemoteVideoStream videoStream: VIRemoteVideoStream) {
         videoStreamObserver?.didRemoveVideoStream(for: endpoint.endpointId)
         videoStream.removeAllRenderers()
     }
     
     // MARK: - VIAudioManagerDelegate -
     func audioDeviceChanged(_ audioDevice: VIAudioDevice) {
-        if let conferenceWrapper = managedConference, !conferenceWrapper.ended {
+        if let conferenceWrapper = managedConference, conferenceWrapper.state != .ended {
             managedConference?.preferedAudioDevice = audioDevice.type
         }
     }
     
     func audioDeviceUnavailable(_ audioDevice: VIAudioDevice) { }
     
-    func audioDevicesListChanged(_ availableAudioDevices: Set<VIAudioDevice>) {
-        selectSpeaker(from: availableAudioDevices)
-    }
+    func audioDevicesListChanged(_ availableAudioDevices: Set<VIAudioDevice>) { }
     
     // MARK: - Private -
     private enum HeaderKey {
@@ -452,6 +486,11 @@ final class VoximplantService:
     }
     
     private struct ConferenceWrapper {
+        enum State {
+            case created
+            case stable
+            case ended
+        }
         let conference: VICall
         let ID: String
         var myName: String
@@ -459,7 +498,7 @@ final class VoximplantService:
         var isSharingScreen: Bool = false
         var isSendingVideo: Bool = true
         var permissions: ConferencePermissions
-        var ended: Bool = false
+        var state: State = .created
         var preferedAudioDevice: VIAudioDeviceType? = nil
     }
 
